@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="Filip J. Fry" id="user-table-creation">
+        <createTable tableName="USER">
+            <column name="id" type="NVARCHAR"/>
+            <column name="login" type="NVARCHAR"/>
+            <column name="pwd" type="NVARCHAR"/>
+            <column name="role" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="USER" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="USER" columnNames="id" constraintName="USER_PKEY"/>
+
+        <addNotNullConstraint tableName="USER" columnName="login" columnDataType="NVARCHAR"/>
+        <addUniqueConstraint tableName="USER" columnNames="login"/>
+
+        <addNotNullConstraint tableName="USER" columnName="pwd" columnDataType="NVARCHAR"/>
+
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+
+        <createTable tableName="GROUP">
+            <column name="id" type="NVARCHAR"/>
+            <column name="name" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="GROUP" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="GROUP" columnNames="id" constraintName="GROUP_PKEY"/>
+
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+
+        <createTable tableName="SERVICE">
+            <column name="id" type="NVARCHAR"/>
+            <column name="name" type="NVARCHAR"/>
+            <column name="groupId" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="SERVICE" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="SERVICE" columnNames="id" constraintName="SERVICE_PKEY"/>
+
+        <addForeignKeyConstraint baseTableName="SERVICE"
+                                 baseColumnNames="groupId"
+                                 constraintName="FK_SERVICE_GROUP"
+                                 referencedTableName="GROUP"
+                                 referencedColumnNames="id"/>
+
+
+        <createTable tableName="MEETING">
+            <column name="id" type="NVARCHAR"/>
+            <column name="datetime" type="TIMESTAMP"/>
+            <column name="client_id" type="NVARCHAR"/>
+            <column name="employee_id" type="NVARCHAR"/>
+            <column name="service_id" type="NVARCHAR"/>
+            <column name="url" type="NVARCHAR"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="client_id"
+                                 constraintName="FK_MEETING_CLIENT"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="employee_id"
+                                 constraintName="FK_MEETING_EMPLOYEE"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="MEETING"
+                                 baseColumnNames="service_id"
+                                 constraintName="FK_MEETING_SERVICE"
+                                 referencedTableName="SERVICE"
+                                 referencedColumnNames="id"/>
+
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+
+        <createTable tableName="USER_GROUP">
+            <column name="id" type="NVARCHAR"/>
+            <column name="userId" type="NVARCHAR"/>
+            <column name="groupId" type="NVARCHAR"/>
+        </createTable>
+
+        <addNotNullConstraint tableName="USER_GROUP" columnName="id" columnDataType="NVARCHAR"/>
+        <addPrimaryKey tableName="USER_GROUP" columnNames="id" constraintName="USER_GROUP_PKEY"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="userId"
+                                 constraintName="FK_USER_GROUP_USER"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="USER_GROUP"
+                                 baseColumnNames="groupId"
+                                 constraintName="FK_USER_GROUP_GROUP"
+                                 referencedTableName="GROUP"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+</databaseChangeLog>

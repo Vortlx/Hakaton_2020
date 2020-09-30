@@ -1,0 +1,14 @@
+com\hackathon2020\dao\filters\SimpleCondition$1.class
+com\hackathon2020\entities\BaseEntity.class
+com\hackathon2020\dao\filters\SimpleCondition$Builder.class
+com\hackathon2020\converters\Converter.class
+com\hackathon2020\dao\filters\ComplexCondition$1.class
+com\hackathon2020\dao\CommonDao$1.class
+com\hackathon2020\dao\CommonDao.class
+com\hackathon2020\dao\filters\ComplexCondition$Builder.class
+com\hackathon2020\dao\filters\ComplexCondition.class
+com\hackathon2020\dao\filters\Operation.class
+com\hackathon2020\dao\filters\Condition.class
+com\hackathon2020\dao\filters\SimpleCondition.class
+com\hackathon2020\dao\filters\SortDirection.class
+com\hackathon2020\dao\filters\SearchCondition.class
